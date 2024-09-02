@@ -13,3 +13,7 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Short showcase video
+https://github.com/user-attachments/assets/8734042b-f1db-4b4b-afbd-982f945f238d
+

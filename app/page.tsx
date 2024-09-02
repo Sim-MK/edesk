@@ -68,6 +68,43 @@ function camelToTitle(value: string) {
     .trim();
 }
 
+function RowDetails({ open, closeModal, rowData }: any) {
+  return (
+    <Modal
+      open={open}
+      onClose={closeModal}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={{ ...MODAL_STYLE, overflow: "scroll" }}>
+        <Typography id="modal-modal-title" variant="h6" component="h2">
+          Details
+        </Typography>
+        <Divider />
+        {Object.entries(rowData).map(([key, val]: any) => (
+          <Fragment key={key}>
+            <Typography
+              sx={{
+                overflowWrap: "break-word",
+                fontWeight: "bold",
+                paddingTop: 2,
+              }}
+            >
+              {" "}
+              {camelToTitle(key)}
+            </Typography>
+            <Typography sx={{ overflowWrap: "break-word" }}>
+              {" "}
+              {val}
+            </Typography>
+          </Fragment>
+        ))}
+      </Box>
+    </Modal>
+  );
+}
+
+// Renders the action row for each row of the table
 function ActionRow(param: Readonly<GridRenderCellParams>) {
   const [open, setOpen] = useState(false);
 
@@ -86,37 +123,7 @@ function ActionRow(param: Readonly<GridRenderCellParams>) {
       <IconButton onClick={openModal}>
         <Visibility />
       </IconButton>
-      <Modal
-        open={open}
-        onClose={closeModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={{ ...MODAL_STYLE, overflow: "scroll" }}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Details
-          </Typography>
-          <Divider />
-          {Object.entries(rowData).map(([key, val]) => (
-            <Fragment key={key}>
-              <Typography
-                sx={{
-                  overflowWrap: "break-word",
-                  fontWeight: "bold",
-                  paddingTop: 2,
-                }}
-              >
-                {" "}
-                {camelToTitle(key)}
-              </Typography>
-              <Typography sx={{ overflowWrap: "break-word" }}>
-                {" "}
-                {val}
-              </Typography>
-            </Fragment>
-          ))}
-        </Box>
-      </Modal>
+      <RowDetails {...{ open, closeModal, rowData }} />
       <IconButton>
         <Edit />
       </IconButton>
@@ -127,7 +134,10 @@ function ActionRow(param: Readonly<GridRenderCellParams>) {
   );
 }
 
-function CustomerDetails({ filter }: Readonly<{ filter: FilterType | null; }>) {
+// Displays all customer data in a table format
+function CustomerTable({ filter }: Readonly<{ filter: FilterType | null; }>) {
+
+  // Column headers for the table
   const columns = [
     {
       field: "id",
@@ -353,7 +363,7 @@ function HomeTab() {
         onItemClick={filterTableData}
         sx={{ overflowY: "scroll", scrollbarWidth: "none" }}
       />
-      <CustomerDetails filter={tableFilter} />
+      <CustomerTable filter={tableFilter} />
     </Fragment>
   );
 }
